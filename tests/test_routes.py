@@ -156,9 +156,8 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(
             response.status_code,
-            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-        )
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+            )
 
     def test_get_account(self):
         """It should Read an Account"""
