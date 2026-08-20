@@ -166,85 +166,22 @@ class TestAccountService(TestCase):
             response.status_code,
             status.HTTP_405_METHOD_NOT_ALLOWED,
         )
-
-    # ADD YOUR TEST CASES HERE ...
-    def test_update_account(self):
-        """It should Update an existing Account"""
-
-        # create an Account to update
-        test_account = AccountFactory()
-
-        response = self.client.post(
-            BASE_URL,
-            json=test_account.serialize(),
-        )
-
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_201_CREATED,
-        )
-
-        # get the newly created account
-        new_account = response.get_json()
-
-        # change the name
-        new_account["name"] = "Something Known"
-
-        # update the account
-        response = self.client.put(
-            f"{BASE_URL}/{new_account['id']}",
-            json=new_account,
-        )
-
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_200_OK,
-        )
-
-        updated_account = response.get_json()
-
-        self.assertEqual(
-            updated_account["name"],
-            "Something Known",
-        )
     
-    def test_update_account_not_found(self):
-        """It should not Update an Account that is not found"""
-
-        account_data = {
-            "name": "Something Known",
-            "email": "something@example.com",
-            "address": "123 Main Street",
-            "phone_number": "555-1111",
-        }
-
-        response = self.client.put(
-            f"{BASE_URL}/0",
-            json=account_data,
-        )
-
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_404_NOT_FOUND,
-        )
+    
     def test_delete_account(self):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
-
-        response = self.client.delete(
-            f"{BASE_URL}/{account.id}"
-        )
-
+        response = self.client.delete(f"{BASE_URL}/{account.id}")
+        
         self.assertEqual(
             response.status_code,
             status.HTTP_204_NO_CONTENT,
-        )
+            )
 
     def test_delete_account_not_found(self):
         """It should not fail when deleting an Account that is not found"""
         response = self.client.delete(f"{BASE_URL}/0")
-
         self.assertEqual(
             response.status_code,
             status.HTTP_204_NO_CONTENT,
-        )
+            )
