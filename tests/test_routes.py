@@ -157,8 +157,11 @@ class TestAccountService(TestCase):
         self.assertEqual(
             response.status_code,
             status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        )
 
     def test_get_account(self):
+        """It should Read an Account"""
         account = self._create_accounts(1)[0]
         response = self.client.get(
             f"{BASE_URL}/{account.id}",
@@ -180,7 +183,6 @@ class TestAccountService(TestCase):
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
-
         self._create_accounts(5)
 
         response = self.client.get(BASE_URL)
@@ -196,7 +198,6 @@ class TestAccountService(TestCase):
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
-
         response = self.client.delete(BASE_URL)
 
         self.assertEqual(
@@ -217,6 +218,7 @@ class TestAccountService(TestCase):
     def test_delete_account_not_found(self):
         """It should not fail when deleting an Account that is not found"""
         response = self.client.delete(f"{BASE_URL}/0")
+
         self.assertEqual(
             response.status_code,
             status.HTTP_204_NO_CONTENT,
